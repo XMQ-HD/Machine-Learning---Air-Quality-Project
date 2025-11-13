@@ -1,0 +1,46 @@
+{
+  "co_column": "CO(GT)",
+  "priority_features": [
+    "AH",
+    "AH__was_missing",
+    "C6H6(GT)",
+    "C6H6(GT)__was_missing",
+    "CO(GT)",
+    "CO(GT)__was_missing",
+    "NMHC(GT)",
+    "NMHC(GT)__was_missing",
+    "NO2(GT)",
+    "NO2(GT)__was_missing",
+    "NOx(GT)",
+    "NOx(GT)__was_missing"
+  ],
+  "lags": [
+    1,
+    2,
+    3,
+    6,
+    12,
+    24
+  ],
+  "rolls": [
+    3,
+    6,
+    12,
+    24
+  ],
+  "rows_total": 9357,
+  "rows_after_warmup": 9333,
+  "X_trees_shape": [
+    9333,
+    185
+  ],
+  "X_nn_shape": [
+    9333,
+    185
+  ],
+  "label_map": {
+    "low": 0,
+    "mid": 1,
+    "high": 2
+  }
+}
