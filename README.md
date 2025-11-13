@@ -48,7 +48,7 @@ README.md
  ```python
  from pathlib import Path
  import sys
- # point Python to the pack's folder so we can import loader.py
+ # point Python to the pack's folder so to import loader.py
  sys.path.append(str(Path("clean_data/airquality_prepared")))
  from loader import load_pack
  
@@ -155,6 +155,7 @@ README.md
  ---
  
 # Maintainers: Li Zicheng — please open an issue for any dataset quirks or to request additional features.
+
 
 
 
