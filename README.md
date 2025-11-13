@@ -3,7 +3,7 @@
  This repository provides:
  - the raw dataset `data/AirQualityUCI.csv`,
  - the preparation script `prepare_airquality.py`,
- - a **pre-built** cleaned feature pack at `clean_data/airquality_prepared/` (for teammates who don’t want to run the prep script).
+ - a **pre-built** cleaned feature pack at `clean_data/airquality_prepared/` (for you guys who don’t want to run the prep script).
  
  The prepared pack and the script can co-exist: reruns of the script can write to another folder (e.g., `clean_data/airquality_prepared_v2`) without touching the existing pack.
  
@@ -13,7 +13,7 @@
  
 <pre>
 clean_data/
-└─ airquality_prepared/            # ready-to-use feature pack
+└─ airquality_prepared/            # pre-built feature pack
    ├─ artifacts.json               # run metadata (seed, windows, lags, targets)
    ├─ cleaned.parquet              # cleaned time-aligned table (ts + raw cols + flags)
    ├─ features/
@@ -26,15 +26,15 @@ clean_data/
    ├─ loader.py                    # load_pack(path, pack, split) helper
    └─ splits.json                  # indices for train/val/test
 data/
-└─ AirQualityUCI.csv               # raw CSV
+└─ AirQualityUCI.csv               # raw original data
 prepare_airquality.py              # make a new prepared pack from CSV
 requirements.txt
 README.md
 </pre>
  
- ### What’s inside `airquality_prepared`
+ ### `airquality_prepared`
  
- - **`cleaned.parquet`** — the cleaned, gap-aware table, one row per timestamp. Use this if you want to do your **own** feature engineering.
+ - **`cleaned.parquet`** — the cleaned, gap-aware table, one row per timestamp. Use this if you want to do feature engineering.
  - **`features/trees`** — lag/rolling features (no scaling) for RandomForest/GBM/XGBoost, with targets:
    - `X.parquet` shape `(N, 185)`, `y.parquet` shape `(N, 2)` = `[y_reg, y_cls]`.
  - **`features/nn`** — the **same feature set**, standardized by `StandardScaler` for neural models.
@@ -43,9 +43,7 @@ README.md
  
  ---
  
- ## 2) Quick use (no preparation run)
- 
- If you just want to start modelling right away:
+ ## 2) Quick use (directly use airquality_prepared)
  
  ```python
  from pathlib import Path
@@ -69,13 +67,13 @@ README.md
  
  ---
  
- ## 3) Build a new prepared pack yourself
+ ## 3) To build a new prepared pack
  
  ### 3.1. Prerequisites
  
  - Python **3.8–3.12** recommended.
  - macOS / Linux / Windows supported.
- - Optional but recommended: **Git LFS** if you plan to version large CSV/parquet files.
+ - Optional but recommended: **Git LFS** to handle large data set, yet takes infinity to download
  
  Install Python packages:
  
@@ -100,14 +98,14 @@ README.md
  ### 3.2. Run the preparation script
  
  ```bash
- # write to a NEW folder so the shipped pack remains intact
+ # write to a NEW folder after --out so the shipped pack remains intact
  python prepare_airquality.py --csv data/AirQualityUCI.csv --out clean_data/airquality_prepared_v2
  ```
  
  - The script parses the semicolon-delimited CSV with comma decimals, cleans gaps, creates lag/rolling features, standardizes for NN, and writes `artifacts.json`, `cleaned.parquet`, `features/`, `splits.json`, and `loader.py` under the output folder you pass to `--out`.
  - Re-run with different `--out` names to create multiple versions side-by-side.
  
- ### 3.3. Use your newly built pack
+ ### 3.3. Use newly built pack
  
  ```python
  import sys
@@ -122,7 +120,7 @@ README.md
  ## 4) Reproducibility & notes
  
  - `artifacts.json` records window sizes, lags, seeds and column lists used to build the pack.
- - `splits.json` holds row indices for each split; we use **index-based** slicing to avoid leakage.
+ - `splits.json` holds row indices for each split; used **index-based** slicing to avoid leakage.
  - `cleaned.parquet` preserves a `ts`/time column plus original sensor fields and flags (e.g., `__gap`).
  
  ---
@@ -156,7 +154,8 @@ README.md
  
  ---
  
-# Maintainers: P1/P2 owner — please open an issue for any dataset quirks or to request additional features.
+# Maintainers: Li Zicheng — please open an issue for any dataset quirks or to request additional features.
+
 
 
 
