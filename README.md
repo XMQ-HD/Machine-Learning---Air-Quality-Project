@@ -12,24 +12,24 @@
  ## 1) Repository layout
  
 .
-<pre>├──  clean_data</pre>
-<pre>│   └── airquality_prepared/ # ready-to-use feature pack</pre>
-<pre>│   ├── artifacts.json # run metadata (seed, windows, lags, targets)</pre>
-<pre>│   ├── cleaned.parquet # cleaned time-aligned table (ts + raw cols + flags)</pre>
-<pre>│   ├── features/</pre>
-<pre>│   │   ├── nn/ # scaled features for neural models</pre>
-<pre>│   │   │   ├── X.parquet # shape (N, 185)</pre>
-<pre>│   │   │   └── y.parquet # [y_reg, y_cls]</pre>
-<pre>│   │   └── trees/ # raw-scale features for tree models</pre>
-<pre>│   │   ├── X.parquet</pre>
-<pre>│   │   └── y.parquet</pre>
-<pre>│   ├── loader.py # load_pack(path, pack, split) helper</pre>
-<pre>│   └── splits.json # indices for train/val/test</pre>
-<pre>├──  data/</pre>
-<pre>│   └── AirQualityUCI.csv # raw CSV</pre>
-<pre>├──  prepare_airquality.py # make a new prepared pack from CSV</pre>
-<pre>├──  requirements.txt</pre>
-<pre>└──  README.md</pre>
+├──  clean_data
+│   └── airquality_prepared/ # ready-to-use feature pack
+│   ├── artifacts.json # run metadata (seed, windows, lags, targets)
+│   ├── cleaned.parquet # cleaned time-aligned table (ts + raw cols + flags)
+│   ├── features/
+│   │   ├── nn/ # scaled features for neural models
+│   │   │   ├── X.parquet # shape (N, 185)
+│   │   │   └── y.parquet # [y_reg, y_cls]
+│   │   └── trees/ # raw-scale features for tree models
+│   │   ├── X.parquet
+│   │   └── y.parquet
+│   ├── loader.py # load_pack(path, pack, split) helper
+│   └── splits.json # indices for train/val/test
+├──  data/
+│   └── AirQualityUCI.csv # raw CSV
+├──  prepare_airquality.py # make a new prepared pack from CSV
+├──  requirements.txt
+└──  README.md
  
  ### What’s inside `airquality_prepared`
  
@@ -156,6 +156,7 @@
  ---
  
 # Maintainers: P1/P2 owner — please open an issue for any dataset quirks or to request additional features.
+
 
 
 
