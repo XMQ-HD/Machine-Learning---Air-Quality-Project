@@ -42,5 +42,10 @@
     "low": 0,
     "mid": 1,
     "high": 2
-  }
+  },
+  "cls_thresholds": {
+    "low": 1.5,
+    "mid": 2.5
+  },
+  "splits_rule": "2004 train/val (last 20% val), 2005 test"
 }
