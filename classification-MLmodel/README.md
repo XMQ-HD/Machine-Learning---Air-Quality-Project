@@ -21,8 +21,11 @@ The classification model predicts CO(GT) concentration levels at 1h, 6h, 12h, an
 ### Features
 
 - Input features are loaded from the prepared feature pack (`clean_data/airquality_prepared/`)
-- Feature set includes 185 features (lagged values, statistical aggregations, etc.)
-- Minimum lag: 24 hours
+- Base feature set contains ~185 lagged or statistical descriptors (minimum lag 24h)
+- During training the notebook can inject additional enhancements:
+  - Interaction, difference, and cyclical encoding features
+  - Horizon-specific signals (e.g., 24h adds 48/72/168h long lags and rolling means, 1h adds short-term trends)
+  - Optional feature selection (Mutual Information by default, top 100 features)
 
 ## Models Implemented
 
@@ -37,10 +40,12 @@ The notebook evaluates multiple classification models:
 
 ### Model Configuration
 
-- All models use **macro-averaged F1 score** for multi-class evaluation
-- Class imbalance is handled via `class_weight='balanced'` for linear and tree models
-- Hyperparameter tuning is performed using GridSearchCV or RandomizedSearchCV
-- Validation strategy: PredefinedSplit (train/val split)
+- All models are evaluated with **macro-averaged F1 score**
+- Class-imbalance handling:
+  - Linear and tree models enable `class_weight='balanced'`
+  - `rebalance_training_data()` can oversample each horizon’s training set (matching the largest class by default)
+- Horizon-specific feature injection and feature selection can be toggled per experiment
+- Hyperparameter tuning uses GridSearchCV or RandomizedSearchCV with PredefinedSplit folds
 
 ## Evaluation Metrics
 
@@ -63,13 +68,14 @@ Based on F1 score (macro):
 - **12h horizon**: XGBoost (F1: 0.5333, Accuracy: 0.5351, ROC-AUC: 0.7346)
 - **24h horizon**: Persistence Baseline (F1: 0.5619, Accuracy: 0.5668)
 
-### Class Distribution
+### Class Distribution & Handling
 
-The training set shows moderate class imbalance:
-- Class 0 (Low): ~29% of samples
-- Class 1 (Mid): ~48% of samples
-- Class 2 (High): ~23% of samples
-- Imbalance ratio: ~2.15 (max/min class count)
+- Original training-set composition:
+  - Class 0 (Low): ~29%
+  - Class 1 (Mid): ~48%
+  - Class 2 (High): ~23%
+- Imbalance ratio ≈ 2.15 (max/min)
+- When enabled, the notebook oversamples minority classes per horizon before fitting models to keep training labels balanced
 
 ## Folder Layout
 
@@ -122,35 +128,24 @@ classification-model/
    source .venv/bin/activate
    ```
 
-2. Open `HW3-classification.ipynb` in Jupyter Notebook or JupyterLab
+2. Open `classification-ML.ipynb` (or run the equivalent `.py`) inside Jupyter / VS Code.
 
-3. Run all cells sequentially. The notebook will:
-   - Load and prepare the dataset
-   - Construct 3-class classification targets for CO(GT) at each horizon
-   - Train and evaluate all models
-   - Generate performance visualizations
-   - Save results to CSV and figures to output directories
+3. Execute all cells in order. The workflow will:
+   - Load the dataset and base feature matrices
+   - Construct 3-class CO(GT) targets for 1/6/12/24-hour horizons
+   - Optionally inject horizon-specific features, rebalance the training data, and apply feature selection
+   - Train and evaluate every model
+   - Produce diagnostic visualizations
+   - Save summary metrics to `outputs/results/classification_results_all_pollutants.csv`
 
-### Cell Structure
+### Cell Structure (classification-ML.ipynb)
 
-- **Cell 1**: Environment setup and library imports
-- **Cell 2**: Data loading and pollutant identification
-- **Cell 3**: Exploratory data analysis (pollutant distributions)
-- **Cell 4**: Classification target construction (3-class CO(GT))
-- **Cell 5**: Multi-class classification metrics helper functions
-- **Cell 6**: Baseline classification (Persistence)
-- **Cell 7**: Linear classification models (Logistic Regression, Ridge)
-- **Cell 8**: Random Forest classifier
-- **Cell 9**: XGBoost classifier (optional)
-- **Cell 10**: MLP classifier
-- **Cell 11**: Results consolidation and saving
-- **Cell 12**: ROC & PR curves visualization
-- **Cell 13**: Model performance comparison charts
-- **Cell 14**: Confusion matrices
-- **Cell 15**: Feature importance analysis
-- **Cell 16**: Class imbalance analysis
-- **Cell 17**: Error analysis
-- **Cell 18**: Model performance comparison visualizations
+- **Cells 1–4**: environment setup, data loading, EDA, target construction
+- **Cells 5–8**: metric helpers, enhanced features, missing-value remediation
+- **Cell 9**: CO(GT) three-class target creation
+- **Cells 10–11**: training utilities and persistence baseline
+- **Cells 12–16**: linear / RF / XGB / MLP training loops (with rebalancing and feature selection)
+- **Cell 17 onward**: result consolidation, ROC/PR plots, confusion matrices, feature importance, imbalance & error analysis, performance visualizations
 
 ## Key Features
 
