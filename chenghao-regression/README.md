@@ -11,6 +11,7 @@ Python: **3.10** (CPU ok; optional TF/Keras for RNNs)
 
 ## 📁 Repository Layout
 
+```text
 chenghao-regression/
 ├─ notebooks/
 │  └─ regression.ipynb  # End-to-end: data → models → merge → plots
@@ -38,7 +39,6 @@ chenghao-regression/
 │  ├─ avg_by_pollutant.csv
 │  └─ avg_by_horizon.csv
 └─ README.md  # This file
-常见踩坑：
 
 ---
 
