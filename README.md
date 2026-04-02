@@ -154,7 +154,7 @@ README.md
  
  ---
  
-# Maintainers: Li Zicheng — please open an issue for any dataset quirks or to request additional features.
+# Maintainers: Mingqi Xu — please open an issue for any dataset quirks or to request additional features.
 
 
 
